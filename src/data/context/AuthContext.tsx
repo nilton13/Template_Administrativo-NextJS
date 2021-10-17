@@ -9,7 +9,7 @@ interface AuhtContextProps{
 }
 
 const AuthContext = createContext<AuhtContextProps>({})
-/*
+
 async function usuarioNormalizado(usuarioFirebase: firebase.User): Promise<Usuario>{
     const token = await usuarioFirebase.getIdToken()
     return{
@@ -21,15 +21,24 @@ async function usuarioNormalizado(usuarioFirebase: firebase.User): Promise<Usuar
         imagemUrl: usuarioFirebase.photoURL
     }
 }
-*/
+
 
 export function AuthProvider(props){
     const [usuario, setUsuario] = useState<Usuario>(null)
 
 
     async function loginGoogle(){
-        console.log("Login Google...!")
-        route.push('/')
+        const resp = await firebase.auth().signInWithPopup(
+            new firebase.auth.GoogleAuthProvider()
+        )
+
+        if(resp.user?.email){
+            const usuario = await usuarioNormalizado(resp.user)
+            setUsuario(usuario)
+            route.push('/')
+        }
+        
+
     }
 
 
