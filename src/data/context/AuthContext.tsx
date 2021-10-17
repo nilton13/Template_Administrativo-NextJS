@@ -36,12 +36,9 @@ export function AuthProvider(props){
             const usuario = await usuarioNormalizado(resp.user)
             setUsuario(usuario)
             route.push('/')
-        }
-        
-
+        }     
     }
-
-
+    
     return(
         <AuthContext.Provider value={{
             usuario,
